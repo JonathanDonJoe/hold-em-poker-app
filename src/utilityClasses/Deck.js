@@ -16,9 +16,15 @@ class Deck{
     
     shuffle() {
         console.log('Shuffling Deck');
-    
-    }
 
+        for (let i = 0; i < 1000000; i++) {
+            let rand1 = Math.floor(Math.random() * 52);
+            let rand2 = Math.floor(Math.random() * 52);
+            let temp = this.cards[rand1];
+            this.cards[rand1] = this.cards[rand2];
+            this.cards[rand2] = temp;
+        }
+    }
 }
 
 export default Deck;
