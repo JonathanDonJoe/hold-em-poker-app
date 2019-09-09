@@ -9,11 +9,11 @@ class PokerTable extends Component {
         this.deck = new Deck();
         this.deck.create();
         this.deck.shuffle();
-        console.log(this.deck.cards)
+        // console.log(this.deck.cards)
         this.state = {
-            player1Hand: {},
-            player2Hand: {},
-            communityHand: {}
+            player1Hand: [],
+            player2Hand: [],
+            communityHand: []
         }
     }
 
@@ -26,20 +26,22 @@ class PokerTable extends Component {
 
         this.setState({
             player1Hand: [card1, card3],
-            player2Hand: [card2, card4],
-            communityHand: this.deck.cards
+            player2Hand: [card2, card4]
         })
     }
 
     render() { 
-        console.log(this.state.player1Hand)
-        console.log(this.state.player2Hand)
-        console.log(this.state.communityHand)
+        // console.log(this.state.player1Hand)
+        // console.log(this.state.player2Hand)
+        // console.log(this.state.communityHand)
         return (
             <div className='the-table col-sm-12'> 
+                <h1>Player 1 Hand:</h1>
                 <PokerHand cards={this.state.player1Hand} />
-                <PokerHand cards={this.state.player2Hand} />
+                <h1>Community Hand:</h1>
                 <PokerHand cards={this.state.communityHand} />
+                <h1>Player 2 Hand:</h1>
+                <PokerHand cards={this.state.player2Hand} />
                 <button onClick={this.prepDeck} className='btn btn-primary'>
                     Start
                 </button>

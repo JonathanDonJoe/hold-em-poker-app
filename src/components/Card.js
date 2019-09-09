@@ -1,10 +1,13 @@
 import React from 'react';
 
 function Card(props) {
+    // console.log(props.card)
+    const thisCard = `/cards/${props.card}.png`
+    // console.log(thisCard)
 
     return(
         <div className='col-sm-2 card'>
-            <h1>Card</h1>
+            <img src={thisCard} alt={props.card}/>
         </div>
     )
 }
