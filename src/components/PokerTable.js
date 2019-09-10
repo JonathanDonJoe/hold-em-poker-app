@@ -34,21 +34,17 @@ class PokerTable extends Component {
     findWinner = (hand1, hand2) => {
         const winnerArr = window.Hand.winners([hand1, hand2]);
         console.log(winnerArr);
-        console.log(winnerArr.length > 1)
-        console.log(winnerArr[0].descr === hand1.descr)
-        console.log(winnerArr[0].descr === hand2.descr)
-        console.log(winnerArr[0].descr === hand1.descr && winnerArr[0].descr === hand2.descr)
         if (winnerArr.length > 1 || (winnerArr[0].descr === hand1.descr && winnerArr[0].descr === hand2.descr)) {
             this.setState( {
                 msg: 'Game is a Draw'
             }, this.clearMsg)
         } else if ( winnerArr[0].descr === hand1.descr) {
             this.setState( {
-                msg: 'Player Wins!'
+                msg: `Player Wins with ${hand1.descr}!`
             }, this.clearMsg)
         } else if (winnerArr[0].descr === hand2.descr) {
             this.setState( {
-                msg: 'Dealer Wins!'
+                msg: `Dealer Wins with ${hand2.descr}!`
             }, this.clearMsg)
         }
     }
@@ -106,7 +102,7 @@ class PokerTable extends Component {
     }
 
     clearMsg = () => {
-        setTimeout( () => { this.setState({ msg: "" })}, 2000)
+        setTimeout( () => { this.setState({ msg: "" })}, 10000)
     }
 
     check = () => {
@@ -128,7 +124,7 @@ class PokerTable extends Component {
     }
 
     fullCommunityHand = () => {
-        console.log(this.state.communityHand)
+        // console.log(this.state.communityHand)
         if ( this.state.communityHand.length === 5 ) {
             this.checkHandRank();
         }
