@@ -21,6 +21,9 @@ class PokerTable extends Component {
     }
 
     prepDeck = () => {
+        this.deck = new Deck();
+        this.deck.create();
+        this.deck.shuffle();
         // const burn = this.deck.cards.shift();
         const card1 = this.deck.cards.shift();
         const card2 = this.deck.cards.shift();
@@ -29,7 +32,8 @@ class PokerTable extends Component {
 
         this.setState({
             dealerHand: [card1, card3],
-            playerHand: [card2, card4]
+            playerHand: [card2, card4],
+            communityHand:[]
         })
     }
 
@@ -51,6 +55,25 @@ class PokerTable extends Component {
     clearMsg = () => {
         setTimeout( () => { this.setState({ msg: "" })}, 2000)
     }
+
+    check = () => {
+        let communityNewHand = [...this.state.communityHand];
+        if (communityNewHand.length === 0 ) {
+            communityNewHand = [    
+                this.deck.cards.shift(),
+                this.deck.cards.shift(),
+                this.deck.cards.shift()
+            ]
+        } else {
+            communityNewHand.push(this.deck.cards.shift())
+        }
+        this.setState({
+            communityHand: communityNewHand
+        })
+    }
+
+
+
 
     render() { 
         // console.log(this.state.dealerHand)
@@ -82,7 +105,7 @@ class PokerTable extends Component {
                     <button onClick={() => {this.bet(5)}} className='btn btn-success'>
                         Bet 5
                     </button>
-                    <button onClick={this.prepDeck} className='btn btn-warning'>
+                    <button onClick={this.check} className='btn btn-warning'>
                         Check
                     </button>
                     <button onClick={this.prepDeck} className='btn btn-danger'>
