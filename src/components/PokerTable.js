@@ -20,6 +20,59 @@ class PokerTable extends Component {
         }
     }
 
+    checkHandRank = () => {
+        const playerPlusComm = this.pokerfyHand([...this.state.playerHand, ...this.state.communityHand]);
+        const dealerPlusComm = this.pokerfyHand([...this.state.dealerHand, ...this.state.communityHand]);
+        const playerHandRank = window.Hand.solve(playerPlusComm);
+        const dealerHandRank = window.Hand.solve(dealerPlusComm);
+        console.log(playerHandRank);
+        console.log(dealerHandRank);
+
+        this.findWinner(playerHandRank, dealerHandRank);
+    }
+
+    findWinner = (hand1, hand2) => {
+        const winnerArr = window.Hand.winners([hand1, hand2]);
+        console.log(winnerArr);
+        console.log(winnerArr.length > 1)
+        console.log(winnerArr[0].descr === hand1.descr)
+        console.log(winnerArr[0].descr === hand2.descr)
+        console.log(winnerArr[0].descr === hand1.descr && winnerArr[0].descr === hand2.descr)
+        if (winnerArr.length > 1 || (winnerArr[0].descr === hand1.descr && winnerArr[0].descr === hand2.descr)) {
+            this.setState( {
+                msg: 'Game is a Draw'
+            }, this.clearMsg)
+        } else if ( winnerArr[0].descr === hand1.descr) {
+            this.setState( {
+                msg: 'Player Wins!'
+            }, this.clearMsg)
+        } else if (winnerArr[0].descr === hand2.descr) {
+            this.setState( {
+                msg: 'Dealer Wins!'
+            }, this.clearMsg)
+        }
+    }
+
+    pokerfyHand = (hand) => {
+        const newHand = hand.map( card => {
+            if( card.substring(0,2) === '10') {
+                return ('T'+card[2])
+            } else if ( card.substring(0,2) === '11') {
+                return ('J'+card[2])
+            } else if ( card.substring(0,2) === '12') {
+                return ('Q'+card[2])
+            } else if ( card.substring(0,2) === '13') {
+                    return ('K'+card[2])
+            } else if ( card[0] === '1') {
+                return ('A'+card[1])
+            } else {
+                return card
+            }
+        })
+        return newHand
+    }
+
+
     prepDeck = () => {
         this.deck = new Deck();
         this.deck.create();
@@ -58,7 +111,9 @@ class PokerTable extends Component {
 
     check = () => {
         let communityNewHand = [...this.state.communityHand];
-        if (communityNewHand.length === 0 ) {
+        if (this.state.dealerHand[0] === 'deck' || communityNewHand.length === 5) {
+
+        } else if (communityNewHand.length === 0 ) {
             communityNewHand = [    
                 this.deck.cards.shift(),
                 this.deck.cards.shift(),
@@ -69,9 +124,15 @@ class PokerTable extends Component {
         }
         this.setState({
             communityHand: communityNewHand
-        })
+        }, this.fullCommunityHand)
     }
 
+    fullCommunityHand = () => {
+        console.log(this.state.communityHand)
+        if ( this.state.communityHand.length === 5 ) {
+            this.checkHandRank();
+        }
+    }
 
 
 
